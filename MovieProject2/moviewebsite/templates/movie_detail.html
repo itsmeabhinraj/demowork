@@ -1,0 +1,242 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/moviedetail.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.name }} MOVIES</title>
+
+    <style>
+        /* CSS for the star rating */
+        .stars {
+            display: inline-block;
+        }
+
+        .star {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .star.checked {
+            color: gold;
+        }
+
+        .book-description {
+            font-size: 18px; /* Adjust the font size as needed */
+            line-height: 1.5; /* Adjust the line height for better readability */
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+
+    <div class="movie-container">
+        <div class="movie-details">
+            <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover" width="480" height="706">
+            <div class="movie-info">
+                <h1 class="movie-name">{{ movie.name }}</h1>
+                <p class="movie-label"><strong>About Movie</strong></p>
+                <p class="movie-description">{{ movie.desc }}</p>
+                <p class="movie-label"><strong>{{ movie.category }} genre</strong><p>Year: {{ movie.year }}</p>
+</p>
+                <p class="movie-label"><strong>Movie Cast</strong></p>
+                <p class="movie-description">{{ movie.actors }}</p>
+                <ul><p class="movie-label"><strong>Watch trailer here - <button><a href="{{movie.trailer_link}}"><div class="text">Trailer</div></a></button></strong></p>
+
+</ul>
+
+
+
+            </div>
+        </div>
+<!--        <button id="addToWishlist" class="wishlist-button" data-movie-id="{{ movie.id }}" onclick="addToWishlist(this)">-->
+<!--            Add to Wishlist-->
+<!--        </button>-->
+<a href="{% url 'movies:edit_movie' movie.id %}" class="btn btn-primary">Edit Movie</a>
+
+<!--                <h3><p class="text">{{ movie.category }}</p></h3>-->
+
+
+
+</p>
+
+
+
+        <!-- Display existing reviews -->
+<h2>Reviews</h2>
+<ul id="reviews">
+    {% for review in movie.reviews.all %}
+        <li>
+            <div class="stars">
+                {% for i in "12345" %}
+                    <span class="star {% if i <= review.rating %}checked{% endif %}">&#9733;</span>
+                {% endfor %}
+            </div>
+            <p>{{ review.comment }}</p>
+        </li>
+    {% empty %}
+        <li>No reviews yet.</li>
+    {% endfor %}
+</ul>
+
+
+<!-- Review Input Box -->
+<h2>Add a Review</h2>
+<div class="stars">
+    {% for i in "12345" %}
+        <span class="star" onclick="addReview({{ i }})">&#9733;</span>
+    {% endfor %}
+</div>
+<textarea id="reviewText" placeholder="Write your review here"></textarea>
+<button id="submitReview" onclick="submitReview()">Submit Review</button>
+    <script>
+        function addToWishlist(buttonElement) {
+            const movieId = buttonElement.getAttribute('data-movie-id');
+            const xhr = new XMLHttpRequest();
+            const isAdded = buttonElement.classList.contains('added'); // Check if the movie is already added to wishlist
+
+            xhr.open('POST', isAdded ? '/movies/remove_from_wishlist/' : '/movies/add_to_wishlist/', true);
+
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (isAdded) {
+                        buttonElement.classList.remove('added');
+                        alert('Movie removed from wishlist.');
+                    } else {
+                        buttonElement.classList.add('added');
+                        alert('Movie added to wishlist!');
+                    }
+                } else if (xhr.readyState === 4) {
+                    console.error('Error updating wishlist. Status:', xhr.status);
+                }
+            };
+
+            xhr.send('movieId=' + movieId);
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function rateMovie(reviewId, rating) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `/movies/rate_review/${reviewId}/`, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+            const data = JSON.stringify({ rating: rating });
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Review rated successfully!');
+                    // You can update the UI here to reflect the new rating
+                } else if (xhr.readyState === 4) {
+                    console.error('Error rating review. Status:', xhr.status);
+                }
+            };
+
+    xhr.send(data);
+}
+
+        function addReview(rating) {
+            const reviewText = document.getElementById("reviewText");
+            reviewText.value = `Rating: ${rating}/5\n\n`;
+        }
+
+       function submitReview() {
+    const reviewText = document.getElementById("reviewText").value;
+    const rating = extractRating(reviewText);
+
+    // AJAX request to submit the review data
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `/movies/rate_review/${movieId}/`, true);  // Assuming you have a URL configured for rating a review
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Review successfully saved, update the UI
+                const newReview = JSON.parse(xhr.responseText);
+                displayReview(newReview);
+            } else {
+                console.error('Error saving review. Status:', xhr.status);
+            }
+        }
+    };
+
+    const data = JSON.stringify({ rating: rating, comment: reviewText });
+    xhr.send(data);
+
+    // Clear the review input box
+    document.getElementById("reviewText").value = "";
+}
+
+function extractRating(reviewText) {
+    const ratingMatch = reviewText.match(/Rating: (\d)\/5/);
+    return ratingMatch ? parseInt(ratingMatch[1]) : 0;
+}
+
+function displayReview(review) {
+    const reviewsList = document.getElementById("reviews");
+    const li = document.createElement("li");
+
+    // Create stars based on the rating
+    const stars = Array.from({ length: review.rating }, (_, index) => {
+        return `<span class="star checked">&#9733;</span>`;
+    }).join("");
+
+    li.innerHTML = `
+        <div class="stars">${stars}</div>
+        <p>${review.comment}</p>
+    `;
+
+    reviewsList.prepend(li);  // Add new review at the beginning of the list
+}
+
+
+        function extractRating(reviewText) {
+            const ratingMatch = reviewText.match(/Rating: (\d)\/5/);
+            return ratingMatch ? parseInt(ratingMatch[1]) : 0;
+        }
+    </script>
+</body>
+
+</html>
+{% endblock %}

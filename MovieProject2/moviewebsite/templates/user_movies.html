@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Your Movies</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Your Movies</h1>-->
+<!--    <ul>-->
+<!--        {% for movie in user_movies %}-->
+<!--            <li>-->
+<!--                {{ movie.name }} (Added on: {{ movie.year }})-->
+<!--                <form method="POST" action="{% url 'movies:delete_movie' movie.id %}">-->
+<!--                    {% csrf_token %}-->
+<!--                    <button type="submit">Delete</button>-->
+<!--                </form>-->
+<!--                <a href="{% url 'movies:edit_movie' movie.id %}">Edit</a>-->
+<!--            </li>-->
+<!--        {% empty %}-->
+<!--            <li>No movies added yet.</li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Movies</title>
+</head>
+<body>
+    <h1>My Movies</h1>
+    <ul>
+        {% for movie in movies %}
+        <li>
+            <strong>{{ movie.name }}</strong> - {{ movie.category }}
+            <a href="{% url 'movies:edit_movie' movie.id %}">Edit</a>
+            <a href="{% url 'movies:delete_movie' movie.id %}">Delete</a>
+        </li>
+        {% empty %}
+        <li>No movies found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock %}

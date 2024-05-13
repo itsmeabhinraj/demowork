@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+    User Profile
+{% endblock %}
+
+{% block content %}
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Profile</title>
+</head>
+<body>
+   <h1>Profile Details</h1>
+    <p>Username: {{ user.username }}</p>
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last Name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+<button><a href="{% url 'regapp:edit_profile' %}">Edit profile</a></button>
+
+{% endblock %}

@@ -1,0 +1,184 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Movies - Moviestar</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<style>.movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Adjust this based on your preference */
+    gap: 20px;
+    padding: 20px;
+}
+
+.movie-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    width: 200px; /* Adjust the width as needed */
+}
+
+.movie-cover {
+    max-width: 100%;
+    height: auto;
+}</style>
+</head>
+<body>
+<!--    <div class="navigation-bar">-->
+<!--&lt;!&ndash;        &lt;!&ndash; Navigation Links &ndash;&gt;&ndash;&gt;-->
+<!--        <a href="{% url 'movies:home' %}" class="nav-link">Home</a>-->
+<!--        <a href="{% url 'regapp:login' %}" class="nav-link">Login</a>-->
+<!--&lt;!&ndash;        <a href="{% url 'regapp:signup' %}" class="nav-link">Signup</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Search Form &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <form action="{% url 'movies:search_results' %}" method="get">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="text" name="query" placeholder="Search movies...">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button type="submit">Search</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+<!--    </div>-->
+
+<!---->
+
+<script>
+    const imageBoxes = document.querySelectorAll(".image-box");
+
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.2, // Adjust the threshold as needed
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fade-in");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    imageBoxes.forEach((imageBox) => {
+        observer.observe(imageBox);
+    });
+</script>
+<!--    below the black space-->
+<!--     latest recent movies-->
+<div class="container">
+<h3><p class="text">Recent added</p></h3>
+<div>
+    <ul class="movie-list">
+        {% for movie in latest_Movies %}
+            <li class="movie">
+                <a href="{% url 'movies:movie_detail' movie.id %}">
+                    <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover" height="500" width="200">
+                </a>
+            </li>
+        {% empty %}
+            <li>No movies found.</li>
+        {% endfor %}
+    </ul>
+</div>
+<!--modifying sroller -->
+<div>{% for category in categories %}
+        <h2>{{ category.name }}</h2>
+    <div>
+        <ul class="movie-list">
+            {% for movie in category.movie_set.all %}
+            <li class="movie">
+                 <a href="{% url 'movies:movie_detail' movie.id %}">
+                    <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover" height="500" width="200"></a>
+<!--                    <h4>{{ movie.name }}</h4>-->
+<!--                    <a href="{% url 'movies:movie_detail' movie.id %}">More Info</a>-->
+
+            {% empty %}
+                <p>No movies found in this category.</p>
+            {% endfor %}</div>
+    {% empty %}
+        <p>No categories available.</p>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+<!-- All movies showing area -->
+<!--<div>-->
+<!--<h2><p class="text">All movies</p></h2>-->
+<!--<div class="movies-container">-->
+<!--    {% for movie in movies %}-->
+<!--        <div class="movie-item">-->
+<!--            <a href="{% url 'movies:movie_detail' movie.id %}">-->
+<!--            <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover" height="500" width="200">    </a>-->
+<!--                <h4><p>{{ movie.name }}</p></h4>-->
+<!--        </div>-->
+<!--    {% empty %}-->
+<!--        <p>No movies found.</p>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+<!--</div> <div>
+</div>-->
+
+
+<!--    <div>-->
+<!--<h2><p class="text">{{category.name}}</p></h2>-->
+<!--<div class="movies-container">-->
+
+<!--            {% for category in categories %}-->
+<!--        <div class="movie">-->
+<!--            <a href="{% url 'movies:category_movies' category.name|slugify %}">-->
+<!--            <img src="{{ movie.img.url }}" alt="{{ category.name }}" class="movie-cover">    </a>-->
+<!--                <h4><p>{{ movie.name }}</p></h4>-->
+<!--        </div>-->
+<!--    {% empty %}-->
+<!--        <p>No movies found.</p>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+<!--</div>-->
+<!-- {% for category in categories %}-->
+<!--        <h2>Movies in {{ category.name }}</h2>-->
+<!--        <div class="movies-container">-->
+<!--            {% for movie in category.movie_set.all %}-->
+<!--                <div class="movie-item">-->
+<!--                    <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">-->
+<!--                    <h4>{{ movie.name }}</h4>-->
+<!--                    <a href="{% url 'movies:movie_detail' movie.id %}">More Info</a>-->
+<!--                </div>-->
+<!--            {% empty %}-->
+<!--                <p>No movies found in this category.</p>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    {% empty %}-->
+<!--        <p>No categories available.</p>-->
+<!--    {% endfor %}-->
+
+<!--</div>-->
+
+
+</body>
+</html>
+{% endblock %}

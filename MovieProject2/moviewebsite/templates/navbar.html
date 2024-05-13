@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'movies:style.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-wS0JB+scVxsk9VVfKTnHVvD5zPLP5VZvb5f/jL7urva7cx9TZ0TkVcX8NsD4Ubjj0kmkO9m/CIg6L/sLeXerfA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'movies:style.css' %}">
+
+</head>
+
+
+<body>
+<!--<div class="navigation-bar">-->
+<!--<nav class="navbar navbar-expand-lg bg-light fixed-top shadow-lg">-->
+<!--            <div class="container">-->
+<!--                <a class="navbar-brand" href="{% url 'movies:home' %}">Movie <span class="tooplate-red">Show</span><span class="tooplate-green">now</span></a>-->
+
+<!--                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                    <span class="navbar-toggler-icon"></span>-->
+<!--                </button>-->
+
+<!--                <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--                    <ul class="navbar-nav ms-auto">-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link click-scroll" href="{% url 'movies:home' %}">Home</a>-->
+<!--                        </li>-->
+
+
+<!--&lt;!&ndash;nav bar dropdown section success &ndash;&gt;-->
+<!--                        <li class="nav-item dropdown">-->
+<!--                                <a class="nav-link dropdown-toggle click-scroll" href="#section_3" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Category</a>-->
+
+<!--                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">-->
+<!--                                 {% for category in categories %}-->
+<!--                                <li><a class="dropdown-item" href="{% url 'movies:category_movies' category.name|slugify %}">{{ category.name }}</a></li>-->
+<!--                                                {% endfor %}-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                        {% if user.is_authenticated %}-->
+<!--                        <li>hello {{user.username}}</li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link click-scroll" href="{% url 'regapp:logout' %}">logout</a>-->
+<!--                        </li>-->
+<!--                        {% else %}-->
+<!--                         <li class="nav-item">-->
+<!--                            <a class="nav-link click-scroll" href="{% url 'regapp:signup' %}">Signup</a>-->
+<!--                        </li>-->
+<!--                        {% endif %}-->
+<!--                        <form action="{% url 'movies:search_results' %}" method="get">-->
+<!--                        <input type="text" name="query" placeholder="Search movies...">-->
+<!--                        <button type="submit">Search</button>-->
+
+<!--        </form>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--</div>-->
+
+
+
+<!-- Update the navbar section-->
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <a class="nav-link click-scroll" href="{% url 'movies:home' %}">Home</a>
+        </li>
+        <!-- Add profile links for authenticated users -->
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link click-scroll" href="{% url 'regapp:view_profile' %}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link click-scroll" href="{% url 'regapp:edit_profile' %}">Edit Profile</a>
+            </li>
+            <li>hello {{ user.username }}</li>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link click-scroll" href="{% url 'regapp:logout' %}">Logout</a>-->
+<!--            </li>-->
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link click-scroll" href="{% url 'regapp:signup' %}">Signup</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link click-scroll" href="{% url 'regapp:login' %}">Login</a>
+            </li>
+        {% endif %}
+        <!-- End of profile links -->
+        <form action="{% url 'movies:search_results' %}" method="get">
+            <input type="text" name="query" placeholder="Search movies...">
+            <button type="submit">Search</button>
+        </form>
+    </ul>
+</div>
+
+</body></html>

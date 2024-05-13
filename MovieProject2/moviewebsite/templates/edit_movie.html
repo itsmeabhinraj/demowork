@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Movie</title>
+</head>
+<body>
+    <h1>Edit Movie</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>
+{% endblock %}

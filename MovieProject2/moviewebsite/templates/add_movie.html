@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+  <h2>Add New Movie</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Display movie form fields -->
+    {{ form.as_p }}
+    <button type="submit">Add Movie</button>
+  </form>
+{% endblock %}

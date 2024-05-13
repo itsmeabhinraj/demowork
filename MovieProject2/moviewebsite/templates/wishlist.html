@@ -1,0 +1,11 @@
+<h1>My Wishlist</h1>
+{% if wishlist.movies.all %}
+    <ul>
+        {% for movie in wishlist.movies.all %}
+<!--        images can be added-->
+            <li>{{ movie.name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Your wishlist is empty!</p>
+{% endif %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }}
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Movies</title>
+</head>
+<body>
+    <h1>Admin Movies</h1>
+    <ul>
+        {% for movie in movies %}
+        <li> <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover" height="100" width="70">
+            <strong>{{ movie.name }}</strong> - {{ movie.category }}
+             <a href="{% url 'movies:edit_movie' movie.id %}">Edit</a>
+            <a href="{% url 'movies:delete_movie' movie.id %}">Delete</a>
+        </li>
+        {% empty %}
+        <li>No movies found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock %}

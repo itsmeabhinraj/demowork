@@ -1,0 +1,57 @@
+<!-- category_movies.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<style>.movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Adjust this based on your preference */
+    gap: 20px;
+    padding: 20px;
+}
+
+.movie-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    width: 200px; /* Adjust the width as needed */
+}
+
+.movie-cover {
+    max-width: 100%;
+    height: auto;
+}</style>
+<body><h2>Movies in {{ category.name }}</h2>
+<ul><div class="movies-container">
+
+    {% for movie in movies %}
+        <div class="movie-item">
+            <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">
+            <h4>{{ movie.name }}</h4>
+            <a href="{% url 'movies:movie_detail' movie.id %}">More Info</a>
+        </div>
+    {% empty %}
+        <p>No movies found.</p>
+    {% endfor %}
+</ul></div>
+</body>
+</html>
+{% endblock %}

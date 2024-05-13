@@ -1,0 +1,222 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+     {{product.description|truncatewords:155}}
+
+{% endblock %}
+
+{% block title %}
+ {% if category %}
+    {{ product.name }} -AR store
+
+ {% endif %}
+{% endblock %}
+
+{% block content %}<!--<!DOCTYPE html>-->
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="white-background">
+
+
+
+<!--<div class="navigation-bar">-->
+<!--        &lt;!&ndash; Navigation Links &ndash;&gt;-->
+<!--        <a href="{% url 'movies:home' %}" class="nav-link">Home</a>-->
+<!--        <a href="{% url 'regapp:login' %}" class="nav-link">Login</a>-->
+<!--        <a href="{% url 'regapp:signup' %}" class="nav-link">Signup</a>-->
+<!--        &lt;!&ndash; Search Form &ndash;&gt;-->
+<!--        <form action="{% url 'movies:search_results' %}" method="get">-->
+<!--            <input type="text" name="query" placeholder="Search movies...">-->
+<!--            <button type="submit">Search</button>-->
+<!--        </form>-->
+<!--</div>-->
+
+<!--    <div class="movies-container">-->
+<!--        {% for movie in movies %}-->
+<!--            <div class="movie-item">-->
+<!--                <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">-->
+<!--                <h2>{{ movie.name }}</h2>-->
+<!--&lt;!&ndash;                <p>By {{ book.author }}</p>&ndash;&gt;-->
+<!--                <a href="{% url 'movies:movie_detail' movie.id %}">More Info</a>-->
+<!--            </div>-->
+<!--        {% empty %}-->
+<!--            <p>No movies found.</p>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+    <!-- Navigation Section -->
+<!--    <nav class="secondary-nav">-->
+<!--        <ul>-->
+
+
+
+
+<!--            <a href="{% url 'movies:view_wishlist' %}">WISHLIST</a>-->
+<!--        </ul>-->
+<!--    </nav>-->
+
+    <!-- Image Section -->
+                <head>Best Awarded movies </head>
+
+    <div class="image-container">
+        <div class="image-overlay">
+            <img src="{% static 'css/images/Designer.png' %}" alt="Image Description" width="500" height="700" >
+            <div class="overlay-text">
+<!--                <span class="announcement-text">Announcing the</span><br>-->
+                <span class="best-books">Best movies</span><br>
+                <span class="year-text">of 2024</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book List Section -->
+<!--        top movies display here -->
+        <div>
+                                <h3><p class="text">top rated movies</p></h3>
+
+    <ul class="movie-list">
+        {% for movie in latest_Movies %}
+            <li class="movie">
+
+                <a href="{% url 'movies:movie_list' %}">
+                    <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">
+                </a>
+            </li>
+        {% empty %}
+            <li>No movies found.</li>
+        {% endfor %}
+    </ul>
+            </div>
+<!--full movie list will be here or categorised-->
+    <ul class="movie-list">
+
+        {% for movie in latest_Movies %}
+
+            <li class="movie">
+                <a href="{% url 'movies:movie_list' %}">
+                    <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">
+                </a>
+            </li>
+        {% empty %}
+            <li>No movies found.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<!-- Add this script before the closing </body> tag -->
+<script>
+    const imageBoxes = document.querySelectorAll(".image-box");
+
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.2, // Adjust the threshold as needed
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fade-in");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    imageBoxes.forEach((imageBox) => {
+        observer.observe(imageBox);
+    });
+</script>
+<!--    below the black space-->
+<!--     latest recent movies-->
+                        <h3><p class="text">top rated movies</p></h3>
+    <div> <ul class="movie-list">
+
+        {% for movie in latest_Movies %}
+
+            <li class="movie">
+                <a href="{% url 'movies:movie_detail' movie.id %}">
+                    <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">
+                </a>
+            </li>
+        {% empty %}
+            <li>No movies found.</li>
+        {% endfor %}
+    </ul></div>
+
+<!--    all movies -->
+    <div>
+    {% for category in categories %}
+        <h3>{{ category.name }}</h3>
+        <div class="movie-list">
+        {% for movie in movies %}
+                <li class="movie">
+                    <a href="{% url 'movies:movie_detail' movie.id %}">
+                        <img src="{{ movie.img.url }}" alt="{{ movie.name }}" class="movie-cover">
+                    </a>
+                    <p>{{ movie.name }}</p>
+                </li>
+            {% empty %}
+                <li>No movies found.</li>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+
+<!-- ... your existing HTML ... -->
+<!-- ... your existing HTML ... --><!-- ... your existing HTML ... -->
+<!-- ... your existing HTML ... -->
+
+<div class="white-thin-line"></div>
+
+<div class="flex-container">
+    <div class="column">
+
+        </div>
+    </div>
+
+<!--    <div class="column">-->
+<!--        <div class="work-with-us">-->
+<!--            WORK WITH US-->
+<!--            <br>-->
+<!--            Authors-->
+<!--            <br>-->
+<!--            Advertise-->
+<!--            <br>-->
+<!--            Authors & ads blog-->
+<!--            <br>-->
+<!--            API-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="column">-->
+<!--        <div class="connect">-->
+<!--            CONNECT-->
+<!--            <br>-->
+<!--            WormyReads on Facebook-->
+<!--            <br>-->
+<!--            WormyReads on Twitter-->
+<!--            <br>-->
+<!--            WormyReads on Instagram-->
+<!--            <br>-->
+<!--            WormyReads on LinkedIn-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+<div class="center">
+    © 2024 movie ShowNow, Inc.
+</div>
+
+<!-- ... rest of your HTML ... -->
+
+<!-- ... rest of your HTML ... -->
+
+</body>
+</html>{% endblock %}
